@@ -11,13 +11,6 @@ class RacingGame {
     }
 
     initializeEventListeners() {
-        document.getElementById('num-players').addEventListener('input', (e) => {
-            const num = parseInt(e.target.value);
-            if (!isNaN(num) && num >= 2 && num <= 10) {
-                const destinationInput = document.getElementById('destination');
-                destinationInput.value = num * 1000;
-            }
-        });
         // Setup phase
         document.getElementById('set-players-btn').addEventListener('click', () => this.setPlayers());
         document.getElementById('start-game-btn').addEventListener('click', () => this.startGame());
@@ -151,14 +144,8 @@ class RacingGame {
     }
 
     getPlayerCharacter(index) {
-        const characters = [
-            '🏃‍♂️', '🏃‍♀️', '🚴‍♂️', '🚴‍♀️', '🏎️', '🚗', '🚙', '🚕',
-            '🏇', '🛴', '🏂', '🏄‍♂️', '🏄‍♀️', '🚤', '🛵', '🏃', '🤸‍♂️', '🤸‍♀️'
-        ];
-
-        // Random icon
-        const randomIndex = Math.floor(Math.random() * characters.length);
-        return characters[randomIndex];
+        const characters = ['🏃‍♂️', '🏃‍♀️', '🚴‍♂️', '🚴‍♀️', '🏃', '🤸‍♂️'];
+        return characters[index % characters.length];
     }
 
     createRacingTrack() {
@@ -239,7 +226,8 @@ class RacingGame {
     makeMove() {
         if (!this.gameActive || this.gameFinished) return;
 
-        const moveDistance = parseInt(document.getElementById('move-distance').value);
+        const tmpMoveDistance = document.getElementById('move-distance').value;
+        const moveDistance = parseInt(tmpMoveDistance == "" ? 0 : tmpMoveDistance);
         const currentPlayer = this.players[this.currentPlayerIndex];
 
         if (moveDistance < 0) {
@@ -289,7 +277,7 @@ class RacingGame {
         }
 
         // Clear input and update UI
-        document.getElementById('move-distance').value = 0;
+        document.getElementById('move-distance').value = "";
         this.updateGameUI();
 
         // Enable undo button
@@ -517,35 +505,24 @@ class RacingGame {
     }
 
     resetGame() {
-        if (confirm('Are you sure you want to reset the game? All progress will be lost.')) {
-            this.gameActive = false;
-            this.gameFinished = false;
+        this.players.forEach((_, index) => {
+            this.players[index].position = 0;
+            this.players[index].lastMoveRound = 1;
+            this.updatePlayerPosition(index);
+        });
 
-            // Nếu đã có danh sách người chơi, reset lại trạng thái của họ
-            if (this.players.length > 0) {
-                this.players.forEach(player => {
-                    player.position = 0;
-                    player.finished = false;
-                    player.finishPosition = null;
-                    player.lastMoveRound = 0;
-                });
+        this.currentPlayerIndex = 0;
+        this.gameHistory = [];
+        this.gameActive = true;
+        this.gameFinished = false;
+        this.currentRound = 1;
+        this.someoneFinishedInRound = null;
 
-                this.currentPlayerIndex = 0; // Bắt đầu lại từ Player 1
-            }
+        document.getElementById('undo-btn').disabled = true;
 
-            // Làm mới giao diện đường đua
-            this.updateAllPlayerPositions();
-            this.updateAllPlayerInfo();
-            this.resetPlayerTrails();
-
-            // Reset input và nút
-            document.getElementById('move-distance').value = 0;
-            document.getElementById('undo-btn').disabled = true;
-
-            // Reset UI chung
-            document.getElementById('current-player').textContent = this.players.length > 0 ? this.players[0].name : 'Player 1';
-            document.getElementById('current-player').style.color = this.players.length > 0 ? this.players[0].color : '#000';
-        }
+        this.updateGameUI();
+        this.createRacingTrack();
+        this.updateGameStatus('Game started! It\'s ' + this.players[0].name + '\'s turn.');
     }
 
     newGame() {
