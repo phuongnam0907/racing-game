@@ -564,7 +564,7 @@ class RacingGame {
 
             // Clear inputs and reset to defaults
             document.getElementById('num-players').value = 2;
-            document.getElementById('destination').value = 100;
+            document.getElementById('destination').value = 2000;
             document.getElementById('move-distance').value = 0;
             document.getElementById('name-inputs').innerHTML = '';
 
