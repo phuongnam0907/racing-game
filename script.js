@@ -184,7 +184,7 @@ class RacingGame {
         for (let i = 0; i <= numMarkers; i++) {
             const marker = document.createElement('div');
             marker.className = 'distance-marker';
-            marker.textContent = Math.round((i / numMarkers) * this.destination) + 'm';
+            marker.textContent = Math.round((i / numMarkers) * this.destination) + 'p';
             markersDiv.appendChild(marker);
         }
 
@@ -198,7 +198,7 @@ class RacingGame {
             const playerInfo = document.createElement('div');
             playerInfo.className = 'player-info';
             playerInfo.id = `player-${index}-info`;
-            playerInfo.textContent = `${player.name}: ${player.position}m`;
+            playerInfo.textContent = `${player.name}: ${player.position}p`;
             playerInfo.style.backgroundColor = player.color;
             playerInfo.style.color = this.getContrastColor(player.color);
 
@@ -307,7 +307,7 @@ class RacingGame {
         document.getElementById('undo-btn').disabled = false;
 
         this.updateGameStatus(
-            `${currentPlayer.name} moved ${moveDistance}m (${oldPosition}m → ${currentPlayer.position}m). ` +
+            `${currentPlayer.name} added ${moveDistance}p (${oldPosition}p → ${currentPlayer.position}p). ` +
             `It's now ${this.players[this.currentPlayerIndex].name}'s turn.`
         );
     }
@@ -380,7 +380,7 @@ class RacingGame {
 
         if (!playerInfo) return;
 
-        let statusText = `${player.name}: ${player.position}m`;
+        let statusText = `${player.name}: ${player.position}p`;
         if (player.finished) {
             statusText += ` (Finished #${player.finishPosition})`;
         }
@@ -472,14 +472,14 @@ class RacingGame {
             if (player.finished) {
                 if (player.finishPosition === 1) {
                     resultItem.classList.add('winner');
-                    resultItem.innerHTML = `🏆 ${player.name} - WINNER! (${player.position}m)`;
+                    resultItem.innerHTML = `🏆 ${player.name} - WINNER! (${player.position}p)`;
                 } else {
                     resultItem.classList.add('completed');
-                    resultItem.innerHTML = `${player.finishPosition}. ${player.name} - Finished (${player.position}m)`;
+                    resultItem.innerHTML = `${player.finishPosition}. ${player.name} - Finished (${player.position}p)`;
                 }
             } else {
                 resultItem.classList.add('not-completed');
-                resultItem.innerHTML = `${player.name} - Did not finish (${player.position}m)`;
+                resultItem.innerHTML = `${player.name} - Did not finish (${player.position}p)`;
             }
 
             resultsDiv.appendChild(resultItem);
