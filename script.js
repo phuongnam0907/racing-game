@@ -1,7 +1,7 @@
 class RacingGame {
     constructor() {
         this.players = [];
-        this.destination = 100;
+        this.destination = 2000;
         this.currentPlayerIndex = 0;
         this.gameHistory = []; // For undo functionality
         this.gameActive = false;
