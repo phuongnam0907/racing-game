@@ -35,7 +35,7 @@ class RacingGame {
 
         document.getElementById('move-distance').addEventListener('change', (e) => {
             const value = parseInt(e.target.value);
-            if (value < 0) e.target.value = 0;
+            if (value < 0) e.target.value = '';
             // Remove the 50m limit - players can move any distance they want
         });
     }
@@ -126,6 +126,23 @@ class RacingGame {
         this.updateGameUI();
         this.createRacingTrack();
         this.updateGameStatus('Game started! It\'s ' + this.players[0].name + '\'s turn.');
+
+        document.getElementById('current-player').textContent = this.players[this.currentPlayerIndex].name;
+        document.getElementById('current-player').style.color = this.players[this.currentPlayerIndex].color;
+
+        // Highlight current player's lane
+        this.players.forEach((_, index) => {
+            const lane = document.getElementById(`player-${index}-lane`);
+            if (lane) {
+                if (index === this.currentPlayerIndex) {
+                    lane.style.boxShadow = '0 0 15px ' + this.players[index].color;
+                    lane.style.transform = 'scale(1.02)';
+                } else {
+                    lane.style.boxShadow = 'none';
+                    lane.style.transform = 'scale(1)';
+                }
+            }
+        });
     }
 
     getPlayerColor(index) {
@@ -144,8 +161,14 @@ class RacingGame {
     }
 
     getPlayerCharacter(index) {
-        const characters = ['🏃‍♂️', '🏃‍♀️', '🚴‍♂️', '🚴‍♀️', '🏃', '🤸‍♂️'];
-        return characters[index % characters.length];
+
+        const characters = [
+            '🏃‍♂️', '🏃‍♀️', '🚴‍♂️', '🚴‍♀️', '🏎️', '🚗', '🚙', '🚕',
+            '🏇', '🛴', '🏂', '🏄‍♂️', '🏄‍♀️', '🚤', '🛵', '🏃'
+        ];
+        // Random icon
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        return characters[randomIndex];
     }
 
     createRacingTrack() {
