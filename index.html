@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Racing Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🏁 Racing Game 🏁</h1>
+        
+        <!-- Game Setup Section -->
+        <div id="setup-section" class="section">
+            <h2>Game Setup</h2>
+            <div class="input-group">
+                <label for="num-players">Number of Players (2-10):</label>
+                <input type="number" id="num-players" min="2" max="10" value="2">
+                <button id="set-players-btn">Set Players</button>
+            </div>
+            
+            <div id="player-names" class="hidden">
+                <h3>Enter Player Names:</h3>
+                <div id="name-inputs"></div>
+            </div>
+            <br>
+            <div class="input-group">
+                <label for="destination">Destination (points):</label>
+                <input type="number" id="destination" min="1000" max="" value="2000">
+            </div>
+            
+            <button id="start-game-btn" class="hidden">Start Game</button>
+        </div>
+        
+        <!-- Game Board Section -->
+        <div id="game-section" class="section hidden">
+            <div class="game-controls">
+                <button id="new-game-btn">New Game</button>
+                <button id="reset-btn">Reset Game</button>
+                <button id="undo-btn" disabled>Undo Last Move</button>
+            </div>
+            
+            <div class="game-info">
+                <h3>Destination: <span id="game-destination">0</span> points</h3>
+                <h3>Current Turn: <span id="current-player">Player 1</span></h3>
+            </div>
+            
+            <!-- Racing Track -->
+            <div id="racing-track">
+                <div class="track-header">
+                    <div class="distance-markers" id="distance-markers"></div>
+                </div>
+                <div id="players-track"></div>
+            </div>
+            
+            <!-- Move Input -->
+            <div class="move-input">
+                <label for="move-distance">How far did you go? (points):</label>
+                <input type="number" id="move-distance" min="0" value="0">
+                <button id="make-move-btn">Make Move</button>
+            </div>
+            
+            <!-- Game Status -->
+            <div id="game-status"></div>
+        </div>
+        
+        <!-- Winner Section -->
+        <div id="winner-section" class="section hidden">
+            <h2>🎉 Game Finished! 🎉</h2>
+            <div id="final-results"></div>
+            <button id="new-game-btn">New Game</button>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
